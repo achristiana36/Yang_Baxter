@@ -1,0 +1,1125 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     43890,       1117]
+NotebookOptionsPosition[     43294,       1099]
+NotebookOutlinePosition[     43700,       1115]
+CellTagsIndexPosition[     43657,       1112]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+    RowBox[{
+     RowBox[{
+     "DIRECTORY", "===", "===", "===", "===", "===", "===", "===", "==="}], 
+     "="}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+    "dir1", "=", "\"\<C:/Users/antho/OneDrive/Yang Baxter Homology/Boundary  \
+Matrices/No substitution\>\""}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+   "Get", "[", "\"\<C:\\Users\\antho\\OneDrive\\Yang Baxter \
+Homology\\PolynomialSmithNormalForm.m\>\"", "]"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"GENERATE", " ", "SEQUENCES", " ", "AS", " ", "LISTS"}], "===",
+        "===", 
+       RowBox[{"==", "==="}]}], "=", 
+      RowBox[{
+       RowBox[{"===", "===", "===", "==="}], "="}]}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"GenerateSequences", "[", 
+     RowBox[{"letters_Integer", ",", "Length_Integer"}], "]"}], ":=", 
+    RowBox[{"Tuples", "[", 
+     RowBox[{
+      RowBox[{"Range", "[", "letters", "]"}], ",", "Length"}], "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CnmfSequencesList", "[", 
+      RowBox[{"m_", ",", "n_"}], "]"}], ":=", 
+     RowBox[{"Select", "[", 
+      RowBox[{
+       RowBox[{"GenerateSequences", "[", 
+        RowBox[{"m", ",", "n"}], "]"}], ",", 
+       RowBox[{
+        RowBox[{"ContainsAll", "[", 
+         RowBox[{"#", ",", 
+          RowBox[{"Delete", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", "m", "]"}], ",", "1"}], "]"}]}], "]"}], 
+        "&"}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"FACE", " ", "MAPS", " ", 
+        RowBox[{"(", 
+         RowBox[{"memoized", ",", 
+          RowBox[{"throw", " ", "on", " ", "failure"}]}], ")"}]}], "===", "===",
+        "===", "===", "===", "===", "===", "==="}], "="}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Swap", "[", 
+     RowBox[{"list_", ",", "i_", ",", "j_"}], "]"}], ":=", 
+    RowBox[{"ReplacePart", "[", 
+     RowBox[{"list", ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"i", "->", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", "j", "]"}], "]"}]}], ",", 
+        RowBox[{"j", "->", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}]}], "]"}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"dl", "[", 
+      RowBox[{"list_", ",", "i_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"dl", "[", 
+       RowBox[{"list", ",", "i"}], "]"}], "=", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"ToString", "[", 
+             RowBox[{"Drop", "[", 
+              RowBox[{"list", ",", "1"}], "]"}], "]"}], ",", 
+            RowBox[{"i", "==", "1"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"1", "-", 
+                RowBox[{"y", "^", "2"}]}], ")"}], " ", 
+              RowBox[{"dl", "[", 
+               RowBox[{"list", ",", 
+                RowBox[{"i", "-", "1"}]}], "]"}]}], "+", 
+             RowBox[{
+              RowBox[{"y", "^", "2"}], " ", 
+              RowBox[{"dl", "[", 
+               RowBox[{
+                RowBox[{"Swap", "[", 
+                 RowBox[{"list", ",", 
+                  RowBox[{"i", "-", "1"}], ",", "i"}], "]"}], ",", 
+                RowBox[{"i", "-", "1"}]}], "]"}]}]}], ",", 
+            RowBox[{
+             RowBox[{"i", ">", "1"}], "&&", 
+             RowBox[{
+              RowBox[{"list", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "-", "1"}], "]"}], "]"}], "<", 
+              RowBox[{"list", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"dl", "[", 
+             RowBox[{
+              RowBox[{"Swap", "[", 
+               RowBox[{"list", ",", 
+                RowBox[{"i", "-", "1"}], ",", "i"}], "]"}], ",", 
+              RowBox[{"i", "-", "1"}]}], "]"}], ",", 
+            RowBox[{
+             RowBox[{"i", ">", "1"}], "&&", 
+             RowBox[{
+              RowBox[{"list", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "-", "1"}], "]"}], "]"}], ">=", 
+              RowBox[{"list", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}]}]}], "}"}]}], "}"}], ",", 
+        RowBox[{"Throw", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<dl failed\>\"", ",", "list", ",", "i"}], "}"}], 
+          ",", "\"\<dlError\>\""}], "]"}]}], "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"dr", "[", 
+      RowBox[{"list_", ",", "i_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"dr", "[", 
+       RowBox[{"list", ",", "i"}], "]"}], "=", 
+      RowBox[{"Piecewise", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"ToString", "[", 
+             RowBox[{"Drop", "[", 
+              RowBox[{"list", ",", 
+               RowBox[{"-", "1"}]}], "]"}], "]"}], ",", 
+            RowBox[{"i", "==", 
+             RowBox[{"Length", "[", "list", "]"}]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"1", "-", 
+                RowBox[{"y", "^", "2"}]}], ")"}], " ", 
+              RowBox[{"dr", "[", 
+               RowBox[{"list", ",", 
+                RowBox[{"i", "+", "1"}]}], "]"}]}], "+", 
+             RowBox[{
+              RowBox[{"y", "^", "2"}], " ", 
+              RowBox[{"dr", "[", 
+               RowBox[{
+                RowBox[{"Swap", "[", 
+                 RowBox[{"list", ",", "i", ",", 
+                  RowBox[{"i", "+", "1"}]}], "]"}], ",", 
+                RowBox[{"i", "+", "1"}]}], "]"}]}]}], ",", 
+            RowBox[{
+             RowBox[{"i", "<", 
+              RowBox[{"Length", "[", "list", "]"}]}], "&&", 
+             RowBox[{
+              RowBox[{"list", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], "<", 
+              RowBox[{"list", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}]}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"dr", "[", 
+             RowBox[{
+              RowBox[{"Swap", "[", 
+               RowBox[{"list", ",", "i", ",", 
+                RowBox[{"i", "+", "1"}]}], "]"}], ",", 
+              RowBox[{"i", "+", "1"}]}], "]"}], ",", 
+            RowBox[{
+             RowBox[{"i", "<", 
+              RowBox[{"Length", "[", "list", "]"}]}], "&&", 
+             RowBox[{
+              RowBox[{"list", "[", 
+               RowBox[{"[", "i", "]"}], "]"}], ">=", 
+              RowBox[{"list", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}]}]}], "}"}]}], "}"}], ",", 
+        RowBox[{"Throw", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<dr failed\>\"", ",", "list", ",", "i"}], "}"}], 
+          ",", "\"\<drError\>\""}], "]"}]}], "]"}]}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"d", "[", "list_", "]"}], ":=", 
+     RowBox[{"Sum", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"-", "1"}], ")"}], "^", "i"}], " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"dl", "[", 
+           RowBox[{"list", ",", "i"}], "]"}], "-", 
+          RowBox[{"dr", "[", 
+           RowBox[{"list", ",", "i"}], "]"}]}], ")"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"Length", "[", "list", "]"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"SPARSE", " ", "CONSTRUCTION"}], "===", "===", "===", "===", "===",
+        "===", "===", "==="}], "="}]}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{"Bsp", ",", "BoundaryCnmfSparse"}], "]"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Bsp", "[", 
+      RowBox[{"inputSeqs_List", ",", "imageSeqs_List"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "imagecard", ",", "vars", ",", "assoc", ",", "keys", ",", "rowRules", 
+         ",", "expr", ",", "cr", ",", "i"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"imagecard", "=", 
+         RowBox[{"Length", "[", "imageSeqs", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"vars", "=", 
+         RowBox[{"Array", "[", 
+          RowBox[{"v", ",", "imagecard"}], "]"}]}], ";", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{"v", "[", "1", "]"}], ",", "...", ",", 
+          RowBox[{"v", "[", "k", "]"}]}], "*)"}], 
+        RowBox[{"keys", "=", 
+         RowBox[{"ToString", "/@", "imageSeqs"}]}], ";", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"dl", "/", "dr"}], " ", "base"}], "-", 
+          RowBox[{"case", " ", "outputs"}]}], "*)"}], 
+        RowBox[{"assoc", "=", 
+         RowBox[{"Thread", "[", 
+          RowBox[{"keys", "->", "vars"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"rowRules", "=", 
+         RowBox[{
+          RowBox[{"Reap", "[", 
+           RowBox[{"Do", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"expr", "=", 
+               RowBox[{
+                RowBox[{"d", "[", 
+                 RowBox[{"inputSeqs", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}], "]"}], "/.", " ", 
+                "assoc"}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"cr", "=", 
+               RowBox[{"CoefficientRules", "[", 
+                RowBox[{"expr", ",", "vars"}], "]"}]}], ";", 
+              RowBox[{"(*", 
+               RowBox[{"sparse", " ", "extraction"}], "*)"}], 
+              RowBox[{"Do", "[", 
+               RowBox[{
+                RowBox[{"With", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"exp", "=", 
+                    RowBox[{"cr", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "1"}], "]"}], "]"}]}], ",", 
+                    RowBox[{"coeff", "=", 
+                    RowBox[{"cr", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", ",", "2"}], "]"}], "]"}]}]}], "}"}], ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Total", "[", "exp", "]"}], "==", "1"}], ",", 
+                    RowBox[{"Sow", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"i", ",", 
+                    RowBox[{"First", "@", 
+                    RowBox[{"FirstPosition", "[", 
+                    RowBox[{"exp", ",", "1"}], "]"}]}]}], "}"}], "->", 
+                    "coeff"}], "]"}]}], "]"}]}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"j", ",", 
+                  RowBox[{"Length", "[", "cr", "]"}]}], "}"}]}], "]"}]}], ",", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", 
+               RowBox[{"Length", "[", "inputSeqs", "]"}]}], "}"}]}], "]"}], 
+           "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"SparseArray", "[", 
+         RowBox[{
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"rowRules", "===", 
+             RowBox[{"{", "}"}]}], ",", 
+            RowBox[{"{", "}"}], ",", 
+            RowBox[{"First", "[", "rowRules", "]"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Length", "[", "inputSeqs", "]"}], ",", "imagecard"}], 
+           "}"}]}], "]"}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BoundaryCnmfSparse", "[", 
+      RowBox[{"m_", ",", "n_"}], "]"}], ":=", 
+     RowBox[{"Catch", "[", 
+      RowBox[{
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"seqN", ",", "seqNm1"}], "}"}], ",", 
+         RowBox[{
+          RowBox[{"seqN", "=", 
+           RowBox[{"CnmfSequencesList", "[", 
+            RowBox[{"m", ",", "n"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"seqNm1", "=", 
+           RowBox[{"CnmfSequencesList", "[", 
+            RowBox[{"m", ",", 
+             RowBox[{"n", "-", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Transpose", "@", 
+           RowBox[{"Bsp", "[", 
+            RowBox[{"seqN", ",", "seqNm1"}], "]"}]}]}]}], "]"}], ",", 
+       RowBox[{"\"\<dlError\>\"", "|", "\"\<drError\>\""}], ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"Print", "[", 
+           RowBox[{"\"\<Face map failure: \>\"", ",", "#1"}], "]"}], ";", 
+          RowBox[{"Abort", "[", "]"}]}], ")"}], "&"}]}], "]"}]}], ";"}], "\n",
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"FILE", " ", "HELPERS"}], "===", "===", "===", "===", "===", "===",
+        "===", "==="}], "="}]}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{"BCnmfFile", ",", "CnmfFile", ",", "ExportMXAtomic"}], "]"}], 
+    ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BCnmfFile", "[", 
+      RowBox[{"dir_", ",", "m_Integer", ",", "n_Integer"}], "]"}], ":=", 
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"dir", ",", 
+        RowBox[{"\"\<BCnmf_m\>\"", "<>", 
+         RowBox[{"ToString", "[", "m", "]"}], "<>", "\"\<_n\>\"", "<>", 
+         RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<.mx\>\""}]}], "}"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Creates", " ", "the", " ", "appropriate", " ", "names", " ", "for", " ", 
+     "the", " ", "matrix", " ", "files"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"CnmfFile", "[", 
+      RowBox[{"dir_", ",", "prefix_", ",", "m_Integer", ",", "n_Integer"}], 
+      "]"}], ":=", 
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"dir", ",", 
+        RowBox[{"prefix", "<>", "\"\<_m\>\"", "<>", 
+         RowBox[{"ToString", "[", "m", "]"}], "<>", "\"\<_n\>\"", "<>", 
+         RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<.mx\>\""}]}], "}"}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ExportMXAtomic", "[", 
+      RowBox[{"file_", ",", "expr_"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"tmp", "=", 
+         RowBox[{"file", "<>", "\"\<.tmp\>\""}]}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"Export", "[", 
+         RowBox[{"tmp", ",", "expr", ",", "\"\<MX\>\""}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"RenameFile", "[", 
+         RowBox[{"tmp", ",", "file", ",", 
+          RowBox[{"OverwriteTarget", "->", "True"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", "file"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"EXPORT", " ", "BOUNDARY", " ", 
+        RowBox[{"(", 
+         RowBox[{"saves", " ", "SparseArray"}], ")"}]}], "===", "===", "===", 
+       "===", "===", "===", "===", "==="}], "="}]}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "ExportBoundaryCnmf", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "ExportBoundaryCnmf", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{"\"\<Overwrite\>\"", "->", "False"}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"ExportBoundaryCnmf", "[", 
+      RowBox[{"dir_", ",", "m_Integer", ",", "n_Integer", ",", 
+       RowBox[{"opts", ":", 
+        RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"file", ",", "mat", ",", "overwrite"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"overwrite", "=", 
+         RowBox[{"TrueQ", "[", 
+          RowBox[{"OptionValue", "[", "\"\<Overwrite\>\"", "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+          RowBox[{"CreateDirectory", "[", 
+           RowBox[{"dir", ",", 
+            RowBox[{"CreateIntermediateDirectories", "->", "True"}]}], 
+           "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"file", "=", 
+         RowBox[{"BCnmfFile", "[", 
+          RowBox[{"dir", ",", "m", ",", "n"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"FileExistsQ", "[", "file", "]"}], "&&", 
+           RowBox[{"!", "overwrite"}]}], ",", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{"\"\<Skipping existing file: \>\"", ",", "file"}], "]"}], 
+           ";", "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", "file", "]"}], ";"}]}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Computing BoundaryCnmfSparse[\>\"", ",", "m", 
+          ",", "\"\<, \>\"", ",", "n", ",", "\"\<] \[Ellipsis]\>\""}], "]"}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"mat", "=", 
+         RowBox[{"BoundaryCnmfSparse", "[", 
+          RowBox[{"m", ",", "n"}], "]"}]}], ";", 
+        RowBox[{"(*", "SparseArray", "*)"}], 
+        RowBox[{"ExportMXAtomic", "[", 
+         RowBox[{"file", ",", "mat"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Clear", "[", "mat", "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Saved \>\"", ",", "file"}], "]"}], ";", 
+        "\[IndentingNewLine]", "file"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"IMPORT", " ", 
+        RowBox[{"(", 
+         RowBox[{"ALWAYS", " ", "DENSE"}], ")"}]}], "===", "===", "===", "===",
+        "===", "===", "===", "==="}], "="}]}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "LoadCnmfDense", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"LoadCnmfDense", "::", "nofile"}], 
+     "=", "\"\<Matrix file not found: `1`.\>\""}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"LoadCnmfDense", "[", 
+      RowBox[{"dir_", ",", "prefix_", ",", "m_Integer", ",", "n_Integer"}], 
+      "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"f", ",", "M"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"f", "=", 
+         RowBox[{"CnmfFile", "[", 
+          RowBox[{"dir", ",", "prefix", ",", "m", ",", "n"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"FileExistsQ", "[", "f", "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"Message", "[", 
+            RowBox[{
+             RowBox[{"LoadCnmfDense", "::", "nofile"}], ",", "f"}], "]"}], ";", 
+           RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"M", "=", 
+         RowBox[{"Import", "[", 
+          RowBox[{"f", ",", "\"\<MX\>\""}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Normal", "[", "M", "]"}]}]}], "   ", 
+      RowBox[{"(*", 
+       RowBox[{"always", " ", "densify"}], "*)"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"SNF", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"imports", " ", "boundary", " ", "from", " ", "BCnmf"}], ",", 
+          RowBox[{"ALWAYS", " ", "dense"}], ",", 
+          RowBox[{"exports", " ", 
+           RowBox[{
+            RowBox[{"D", "/", "P"}], "/", "Q"}], " ", "with", " ", "sparse", " ",
+            "policy"}]}], ")"}]}], "===", "===", "===", "===", "===", "===", "===",
+        "==="}], "="}]}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", 
+     RowBox[{"density", ",", "toSparseIf", ",", "SNF"}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"density", "[", "M_", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"dims", "=", 
+          RowBox[{"Dimensions", "[", "M", "]"}]}], ",", "nz"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"nz", "=", 
+         RowBox[{"Count", "[", 
+          RowBox[{"M", ",", 
+           RowBox[{"x_", "/;", 
+            RowBox[{"x", "=!=", "0"}]}], ",", 
+           RowBox[{"{", "2", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"N", "[", 
+         RowBox[{"nz", "/", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"dims", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], " ", 
+            RowBox[{"dims", "[", 
+             RowBox[{"[", "2", "]"}], "]"}]}], ")"}]}], "]"}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"toSparseIf", "[", 
+      RowBox[{"M_", ",", "thresh_"}], "]"}], ":=", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"density", "[", "M", "]"}], "<=", "thresh"}], ",", 
+       RowBox[{"SparseArray", "[", "M", "]"}], ",", "M"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Options", "[", "SNF", "]"}], "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\"\<Overwrite\>\"", "->", "False"}], ",", 
+       RowBox[{"\"\<PQSparseThreshold\>\"", "->", "0.20"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"SNF", "[", 
+      RowBox[{"dir_", ",", "m_Integer", ",", "n_Integer", ",", 
+       RowBox[{"opts", ":", 
+        RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "overwrite", ",", "pqThresh", ",", "bfile", ",", "dfile", ",", 
+         "pfile", ",", "qfile", ",", "B", ",", "res", ",", "D", ",", "P", ",",
+          "Q", ",", "Dsave", ",", "Psave", ",", "Qsave"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"overwrite", "=", 
+         RowBox[{"TrueQ", "[", 
+          RowBox[{"OptionValue", "[", "\"\<Overwrite\>\"", "]"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"pqThresh", "=", 
+         RowBox[{"OptionValue", "[", "\"\<PQSparseThreshold\>\"", "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"DirectoryQ", "[", "dir", "]"}]}], ",", 
+          RowBox[{"CreateDirectory", "[", 
+           RowBox[{"dir", ",", 
+            RowBox[{"CreateIntermediateDirectories", "->", "True"}]}], 
+           "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"bfile", "=", 
+         RowBox[{"CnmfFile", "[", 
+          RowBox[{"dir", ",", "\"\<BCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"dfile", "=", 
+         RowBox[{"CnmfFile", "[", 
+          RowBox[{"dir", ",", "\"\<DCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"pfile", "=", 
+         RowBox[{"CnmfFile", "[", 
+          RowBox[{"dir", ",", "\"\<PCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"qfile", "=", 
+         RowBox[{"CnmfFile", "[", 
+          RowBox[{"dir", ",", "\"\<QCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"!", "overwrite"}], "&&", 
+           RowBox[{"And", "@@", 
+            RowBox[{"(", 
+             RowBox[{"FileExistsQ", "/@", 
+              RowBox[{"{", 
+               RowBox[{"dfile", ",", "pfile", ",", "qfile"}], "}"}]}], 
+             ")"}]}]}], ",", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            
+            RowBox[{"\"\<Skipping existing SNF outputs for m=\>\"", ",", "m", 
+             ",", "\"\<, n=\>\"", ",", "n"}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Return", "[", 
+            RowBox[{"{", 
+             RowBox[{"dfile", ",", "pfile", ",", "qfile"}], "}"}], "]"}], 
+           ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"!", 
+           RowBox[{"FileExistsQ", "[", "bfile", "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"Message", "[", 
+            RowBox[{
+             RowBox[{"LoadCnmfDense", "::", "nofile"}], ",", "bfile"}], "]"}],
+            ";", 
+           RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"B", "=", 
+         RowBox[{"Normal", "@", 
+          RowBox[{"Import", "[", 
+           RowBox[{"bfile", ",", "\"\<MX\>\""}], "]"}]}]}], ";", 
+        RowBox[{"(*", 
+         RowBox[{"ALWAYS", " ", "dense"}], "*)"}], 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Computing ExtendedPolynomialSmithForm for m=\>\"", ",", 
+          "m", ",", "\"\<, n=\>\"", ",", "n", ",", "\"\< \[Ellipsis]\>\""}], 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"res", "=", 
+         RowBox[{"ExtendedPolynomialSmithForm", "[", 
+          RowBox[{"B", ",", "y"}], "]"}]}], ";", 
+        RowBox[{"(*", 
+         RowBox[{"{", 
+          RowBox[{"D", ",", 
+           RowBox[{"{", 
+            RowBox[{"P", ",", "Q"}], "}"}]}], "}"}], "*)"}], 
+        RowBox[{"D", "=", 
+         RowBox[{"res", "[", 
+          RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"P", "=", 
+         RowBox[{"res", "[", 
+          RowBox[{"[", 
+           RowBox[{"2", ",", "1"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Q", "=", 
+         RowBox[{"res", "[", 
+          RowBox[{"[", 
+           RowBox[{"2", ",", "2"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{"Storage", " ", 
+           RowBox[{"policy", ":", 
+            RowBox[{"D", " ", "always", " ", "sparse"}]}]}], ";", 
+          RowBox[{
+           RowBox[{"P", "/", "Q"}], " ", "sparse", " ", "only", " ", "if", " ",
+            "sufficiently", " ", "sparse"}]}], "*)"}], 
+        RowBox[{"Dsave", "=", 
+         RowBox[{"SparseArray", "[", "D", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Psave", "=", 
+         RowBox[{"toSparseIf", "[", 
+          RowBox[{"P", ",", "pqThresh"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Qsave", "=", 
+         RowBox[{"toSparseIf", "[", 
+          RowBox[{"Q", ",", "pqThresh"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"ExportMXAtomic", "[", 
+         RowBox[{"dfile", ",", "Dsave"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"ExportMXAtomic", "[", 
+         RowBox[{"pfile", ",", "Psave"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"ExportMXAtomic", "[", 
+         RowBox[{"qfile", ",", "Qsave"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Clear", "[", 
+         RowBox[{
+         "B", ",", "res", ",", "D", ",", "P", ",", "Q", ",", "Dsave", ",", 
+          "Psave", ",", "Qsave"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Saved: \>\"", ",", "dfile", ",", "\"\<  \>\"", ",", 
+          "pfile", ",", "\"\<  \>\"", ",", "qfile"}], "]"}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"dfile", ",", "pfile", ",", "qfile"}], "}"}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", "===", "===", "===", "===", "===", "===", "==="}], "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"HOMOLOGY", " ", "FROM", " ", "STORED", " ", "SNF", " ", 
+        RowBox[{"(", 
+         RowBox[{"ALWAYS", " ", "dense", " ", "on", " ", "import"}], ")"}]}], 
+       "===", "===", "===", "===", "===", "===", "===", "==="}], "="}]}], 
+    "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "YBHomologyFromSNF", "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"FormatResults", "[", "data_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"tallied", ",", "nontrivial"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"nontrivial", "=", 
+        RowBox[{"DeleteCases", "[", 
+         RowBox[{
+          RowBox[{"DeleteCases", "[", 
+           RowBox[{"data", ",", "0"}], "]"}], ",", "1"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"tallied", "=", 
+        RowBox[{"Tally", "[", "nontrivial", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"With", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"poly", "=", 
+               RowBox[{"#", "[", 
+                RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+              RowBox[{"exp", "=", 
+               RowBox[{"#", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}]}], "}"}], ",", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{"exp", "==", "1"}], ",", 
+              RowBox[{"\"\<Z/(\>\"", "<>", 
+               RowBox[{"ToString", "[", 
+                RowBox[{"poly", ",", "TraditionalForm"}], "]"}], 
+               "<>", "\"\<)\>\""}], ",", 
+              RowBox[{"\"\<(Z/(\>\"", "<>", 
+               RowBox[{"ToString", "[", 
+                RowBox[{"poly", ",", "TraditionalForm"}], "]"}], 
+               "<>", "\"\<))^\>\"", "<>", 
+               RowBox[{"ToString", "[", "exp", "]"}]}]}], "]"}]}], "]"}], 
+          "&"}], ",", "tallied"}], "]"}]}]}], "]"}]}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{
+    RowBox[{"FindPivotColumns", "[", "matrix_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "rref", ",", "pivotCols", ",", "m", ",", "n", ",", "i", ",", "j"}], 
+       "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{"Get", " ", "dimensions"}], "*)"}], 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"m", ",", "n"}], "}"}], "=", 
+        RowBox[{"Dimensions", "[", "matrix", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Compute", " ", "row", " ", "reduced", " ", "echelon", " ", "form"}], 
+        "*)"}], 
+       RowBox[{"rref", "=", 
+        RowBox[{"RowReduce", "[", "matrix", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{"Find", " ", "pivot", " ", "columns"}], "*)"}], 
+       RowBox[{"pivotCols", "=", 
+        RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{"For", " ", "each", " ", "row"}], ",", 
+         RowBox[{
+          RowBox[{"find", " ", "the", " ", "first", " ", "non"}], "-", 
+          RowBox[{"zero", " ", "entry", " ", 
+           RowBox[{"(", 
+            RowBox[{"pivot", " ", "position"}], ")"}]}]}]}], "*)"}], 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"i", "=", "1"}], ",", 
+         RowBox[{"i", "<=", "m"}], ",", 
+         RowBox[{"i", "++"}], ",", 
+         RowBox[{"For", "[", 
+          RowBox[{
+           RowBox[{"j", "=", "1"}], ",", 
+           RowBox[{"j", "<=", "n"}], ",", 
+           RowBox[{"j", "++"}], ",", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"rref", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", ",", "j"}], "]"}], "]"}], "!=", "0"}], ",", 
+             RowBox[{"(*", 
+              RowBox[{
+              "Found", " ", "the", " ", "pivot", " ", "for", " ", "this", " ",
+                "row"}], "*)"}], 
+             RowBox[{
+              RowBox[{"AppendTo", "[", 
+               RowBox[{"pivotCols", ",", "j"}], "]"}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"Break", "[", "]"}], ";"}]}], "]"}]}], "]"}]}], "]"}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Return", " ", "unique", " ", "pivot", " ", "columns", " ", "in", " ",
+          "sorted", " ", "order"}], "*)"}], 
+       RowBox[{"Sort", "[", 
+        RowBox[{"DeleteDuplicates", "[", "pivotCols", "]"}], "]"}]}]}], 
+     "]"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"YBHomologyFromSNF", "[", 
+      RowBox[{"dir_", ",", "m_Integer", ",", "n_Integer"}], "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+        "Dn", ",", "Pn", ",", "Qn", ",", "Dn1", ",", "Pn1", ",", "Qn1", ",", 
+         "basisofcnmf", ",", "dim", ",", "rn", ",", "rnplus1", ",", "betti", ",",
+          "torsion", ",", "Zn", ",", "Bn", ",", "Gn", ",", "pivots"}], "}"}], 
+       ",", 
+       RowBox[{
+        RowBox[{"Dn", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<DCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Pn", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<PCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Qn", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<QCnmf\>\"", ",", "m", ",", "n"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Dn1", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<DCnmf\>\"", ",", "m", ",", 
+           RowBox[{"n", "+", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Pn1", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<PCnmf\>\"", ",", "m", ",", 
+           RowBox[{"n", "+", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Qn1", "=", 
+         RowBox[{"LoadCnmfDense", "[", 
+          RowBox[{"dir", ",", "\"\<QCnmf\>\"", ",", "m", ",", 
+           RowBox[{"n", "+", "1"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"basisofcnmf", "=", 
+         RowBox[{"Map", "[", 
+          RowBox[{"ToString", ",", 
+           RowBox[{"CnmfSequencesList", "[", 
+            RowBox[{"m", ",", "n"}], "]"}]}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"dim", "=", 
+         RowBox[{"Length", "[", "basisofcnmf", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"rn", "=", 
+         RowBox[{"MatrixRank", "[", "Dn", "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"rnplus1", "=", 
+         RowBox[{"MatrixRank", "[", "Dn1", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"betti", "=", 
+         RowBox[{"dim", "-", "rn", "-", "rnplus1"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"torsion", "=", 
+         RowBox[{"FormatResults", "[", 
+          RowBox[{"Diagonal", "[", "Dn1", "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Zn", "=", 
+         RowBox[{"Qn", "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", 
+            RowBox[{
+             RowBox[{"-", 
+              RowBox[{"(", 
+               RowBox[{"dim", "-", "rn"}], ")"}]}], ";;"}]}], "]"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Bn", "=", 
+         RowBox[{
+          RowBox[{"Inverse", "[", "Pn1", "]"}], "[", 
+          RowBox[{"[", 
+           RowBox[{"All", ",", " ", 
+            RowBox[{";;", "rnplus1"}]}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Gn", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{"Bn", ",", "Zn", ",", "2"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"pivots", "=", 
+         RowBox[{"FindPivotColumns", "[", "Gn", "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Basis for Ker \\!\\(\\*SubscriptBox[\\(d\\), \
+\\(n\\)]\\)\>\"", ",", "\"\<\\n\>\"", ",", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"Dot", "[", 
+             RowBox[{
+              RowBox[{"Zn", "[", 
+               RowBox[{"[", 
+                RowBox[{"All", ",", 
+                 RowBox[{
+                  RowBox[{"-", 
+                   RowBox[{"(", 
+                    RowBox[{"dim", "-", "rn"}], ")"}]}], "+", "i"}]}], "]"}], 
+               "]"}], ",", "basisofcnmf"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "0", ",", 
+              RowBox[{"dim", "-", "rn", "-", "1"}]}], "}"}]}], "]"}]}], "]"}],
+         ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Basis for im \\!\\(\\*SubscriptBox[\\(d\\), \\(n + \
+1\\)]\\)\>\"", ",", "\"\<\\n\>\"", ",", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"Dot", "[", 
+             RowBox[{
+              RowBox[{"Bn", "[", 
+               RowBox[{"[", 
+                RowBox[{"All", ",", "i"}], "]"}], "]"}], ",", "basisofcnmf"}],
+              "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", "rnplus1"}], "}"}]}], "]"}], 
+          ",", "\"\<\\n\>\"", ",", "Bn"}], "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Print", "[", 
+         RowBox[{"\"\<Basis for Homology\>\"", ",", "\"\<\\n\>\"", ",", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"Dot", "[", 
+             RowBox[{
+              RowBox[{"Zn", "[", 
+               RowBox[{"[", 
+                RowBox[{"All", ",", 
+                 RowBox[{"pivots", "[", 
+                  RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "]"}], ",", 
+              "basisofcnmf"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", 
+              RowBox[{"Length", "[", "pivots", "]"}]}], "}"}]}], "]"}]}], 
+         "]"}], ";", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Z", "^", "betti"}], ",", "torsion"}], "}"}]}]}], "]"}]}], 
+    ";"}], "\n"}]}]], "Input",
+ CellChangeTimes->{{3.9760269397890987`*^9, 3.976026939790161*^9}, {
+   3.9760270141638584`*^9, 3.976027018507515*^9}, 3.976027169024767*^9, {
+   3.976027205931547*^9, 3.9760272299557114`*^9}, {3.9760273158606052`*^9, 
+   3.9760273462822285`*^9}, {3.976027379903742*^9, 3.976027401955099*^9}, {
+   3.9760275732103176`*^9, 3.976027573745081*^9}, {3.9760276440270863`*^9, 
+   3.976027645069174*^9}, {3.976028018296568*^9, 3.9760280192503586`*^9}, {
+   3.9760280527725563`*^9, 3.9760280539171257`*^9}, {3.9760282274674034`*^9, 
+   3.9760282300342617`*^9}, {3.9760282685557346`*^9, 3.9760282695056267`*^9}, 
+   3.9760284834774017`*^9},
+ CellLabel->"In[1]:=",ExpressionUUID->"75f708fa-d419-0240-991f-da2785c5676b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDelayed", "write", 
+   "\"Tag \\!\\(\\*RowBox[{\\\"PolynomialExtendedGCD\\\"}]\\) in \
+\\!\\(\\*RowBox[{\\\"PolynomialExtendedGCD\\\", \\\"[\\\", \
+RowBox[{\\\"a1_\\\", \\\",\\\", \\\"b1_\\\", \\\",\\\", \\\"var_\\\"}], \\\"]\
+\\\"}]\\) is Protected.\"", 2, 2, 6, 32736503499530626820, "Local"},
+  "MessageTemplate",
+  BaseStyle->"MSG"]], "Message",
+ CellChangeTimes->{3.976028751936363*^9, 3.976029921299715*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"2ef0d68b-7677-6b4e-a78d-efb1b4036019"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"destDir", "=", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{"\"\<C:\>\"", ",", "\"\<Users\>\"", ",", "\"\<antho\>\"", 
+      ",", "\"\<OneDrive\>\"", ",", "\"\<Yang Baxter Homology\>\"", 
+      ",", "\"\<Boundary  Matrices\>\"", ",", "\"\<y=I\>\""}], "}"}], "]"}]}],
+   ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"bcFileName", "[", 
+    RowBox[{"M_", ",", "N_", ",", "I_"}], "]"}], ":=", 
+   RowBox[{"StringJoin", "[", 
+    RowBox[{"\"\<BCnmf_m\>\"", ",", 
+     RowBox[{"ToString", "[", "M", "]"}], ",", "\"\<_n\>\"", ",", 
+     RowBox[{"ToString", "[", "N", "]"}], ",", "\"\<_y\>\"", ",", 
+     RowBox[{"ToString", "[", "I", "]"}], ",", "\"\<.mtx\>\""}], "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"ExportSubMatrix", "[", 
+   RowBox[{"mat_", ",", "M_", ",", "N_", ",", "I_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", "file", "}"}], ",", 
+    RowBox[{
+     RowBox[{"file", "=", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"destDir", ",", 
+         RowBox[{"bcFileName", "[", 
+          RowBox[{"M", ",", "N", ",", "I"}], "]"}]}], "}"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Export", "[", 
+      RowBox[{"file", ",", "mat", ",", "\"\<MatrixMarket\>\""}], "]"}]}]}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SubAndExport", "[", 
+   RowBox[{"m_", ",", "n_"}], "]"}], ":=", 
+  RowBox[{"ExportSubMatrix", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"LoadCnmfDense", "[", 
+      RowBox[{"dir1", ",", "\"\<BCnmf\>\"", ",", "m", ",", "n"}], "]"}], "/.", 
+     RowBox[{"y", "->", "\[ImaginaryI]"}]}], ",", "m", ",", "n", ",", "I"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"AllSubs", "[", "n_", "]"}], ":=", 
+  RowBox[{"Do", "[", 
+   RowBox[{
+    RowBox[{"SubAndExport", "[", 
+     RowBox[{"m", ",", "n"}], "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"m", ",", "2", ",", "n"}], "}"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.976036776484932*^9, 
+  3.976036783332638*^9}},ExpressionUUID->"6369c7df-b54a-e644-85f3-\
+ab07fd9d70dc"]
+},
+WindowSize->{958, 1041.5},
+WindowMargins->{{Automatic, -4.5}, {Automatic, 0}},
+FrontEndVersion->"14.2 for Microsoft Windows (64-bit) (December 26, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"4ba161e6-1407-684a-b4ea-e9cc783ba163"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 40045, 1002, 3434, "Input",ExpressionUUID->"75f708fa-d419-0240-991f-da2785c5676b"],
+Cell[40624, 1026, 552, 12, 26, "Message",ExpressionUUID->"2ef0d68b-7677-6b4e-a78d-efb1b4036019"]
+}, Open  ]],
+Cell[41191, 1041, 2099, 56, 123, "Input",ExpressionUUID->"6369c7df-b54a-e644-85f3-ab07fd9d70dc"]
+}
+]
+*)
+
